@@ -1,0 +1,29 @@
+:root {
+    --color-background: #001731;
+    --color-background-alert: #cff4fc;
+    --color-background-form: #f8fafb;
+    --color-title: #818b92;
+    --color-alert-info: #3f879a;
+}
+
+.debug {
+    border: 1px solid red;
+    ;
+}
+
+body {
+    background-color: var(--color-background);
+}
+
+h1 {
+    color: var(--color-title);
+}
+
+#alert-info {
+    background-color: var(--color-background-alert);
+    color: var(--color-alert-info);
+}
+
+form {
+    background-color: var(--color-background-form);
+}
