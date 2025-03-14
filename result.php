@@ -2,31 +2,9 @@
 
 require_once "./functions.php";
 
-
 if (!isset($_SESSION["passwordGenerated"])) {
 
     header("Location: ./index.php");
-}
-
-$lettersInfo = "";
-
-if ($upperCaseLetters) {
-
-    $lettersInfo .= "Lettere maiuscole ";
-}
-if ($lowerCaseLetters) {
-
-    $lettersInfo .= "Lettere minuscole ";
-}
-if ($numbers) {
-    $lettersInfo .= "Numeri ";
-}
-if ($symbols) {
-    $lettersInfo .= "Simboli ";
-}
-
-if ($duplicates == "No") {
-    $lettersInfo .= "Senza duplicati";
 }
 
 ?>
