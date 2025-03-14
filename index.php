@@ -1,8 +1,21 @@
 <?php
-
 session_start();
+$passwordLength = $_GET["passwordLength"] ?? 0;
 
-require "./functions.php";
+require_once "./functions.php";
+
+$_SESSION["passwordGenerated"] = generatePassword($passwordLength);
+
+// if (!isset($passwordLength) || $passwordLength == 0) {
+
+//     header("Location: ./index.php");
+// } else {
+//     header("Location: ./result.php");
+// }
+
+var_dump($_SESSION);
+
+
 
 ?>
 <!DOCTYPE html>
@@ -21,20 +34,20 @@ require "./functions.php";
     <h1 class="text-center">Strong password generator</h1>
     <h2>Genera una password sicura</h2>
 
-    <form action="" method="GET">
+    <form action="result.php" method="GET">
 
         <label for="passwordLength">
 
             Lunghezza password:
 
         </label>
-        <input type="number" id="passwordLength" name="passwordLength" min="5" max="20">
-        <button class="btn btn-primary">Invia</button>
-        <button class="btn btn-secondary">Annulla</button>
+        <input type="number" id="passwordLength" name="passwordLength" min="5" max="20" required>
+        <button type="submit" class="btn btn-primary">Invia</button>
+        <button type="reset" class="btn btn-secondary">Annulla</button>
 
     </form>
 
-    <?php echo generatePassword($passwordLength) ?>
+    <?php echo $_SESSION["passwordGenerated"] ?>
 
 </body>
 
