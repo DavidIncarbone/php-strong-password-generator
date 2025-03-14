@@ -1,10 +1,7 @@
 <?php
 session_start();
-$passwordLength = $_GET["passwordLength"] ?? 0;
-
 require_once "./functions.php";
 
-$_SESSION["passwordGenerated"] = generatePassword($passwordLength);
 
 // var_dump($_SESSION);
 
@@ -31,13 +28,13 @@ $_SESSION["passwordGenerated"] = generatePassword($passwordLength);
 
         <div class="d-flex justify-content-between mb-3">
             <label for="passwordLength"> Lunghezza password:</label>
-            <input type="number" id="passwordLength" name="passwordLength" min="5" max="20" required>
+            <input type="number" id="passwordLength" name="passwordLength" min="5" max="88" required>
         </div>
         <div class="d-flex justify-content-between mb-3">
-            <label for="duplicates"> Consenti ripetizioni di uno o più caratteri:</label>
+            <label>Consenti ripetizioni di uno o più caratteri:</label>
             <div class="d-flex flex-column me-5">
-                <div><input type="radio" id="duplicates" name="duplicates" checked> <label for="duplicates">Sì</label></div>
-                <div><input type="radio" id="duplicates" name="duplicates"> <label for="duplicates">No</label></div>
+                <div><input type="radio" id="duplicates" name="duplicates" value="Yes" checked> <label for="duplicates">Sì</label></div>
+                <div><input type="radio" id="noDuplicates" name="duplicates" value="No"> <label for="noDuplicates">No</label></div>
 
             </div>
         </div>

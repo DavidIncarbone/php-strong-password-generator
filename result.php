@@ -1,6 +1,6 @@
 <?php
-
 session_start();
+require_once "./functions.php";
 
 
 if (!isset($_SESSION["passwordGenerated"])) {
@@ -8,16 +8,9 @@ if (!isset($_SESSION["passwordGenerated"])) {
     header("Location: ./index.php");
 }
 
-$passwordLength = $_GET["passwordLength"] ?? 0;
 
-require_once "./functions.php";
-
-$_SESSION["passwordGenerated"] = generatePassword($passwordLength);
-
-var_dump($_SESSION);
-
+// var_dump($duplicates);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +25,8 @@ var_dump($_SESSION);
 
 <body class="p-3">
 
-    <h1 class="text-center">La password generata è: <span class="text-primary"><?php echo $_SESSION["passwordGenerated"] ?></span></h1>
+    <h1 class="text-center">La password generata è: <span class="text-primary"><?php echo htmlentities($password_utf8, ENT_QUOTES, 'UTF-8') ?></span></h1>
+
     <div class="d-flex justify-content-center">
 
         <button class="btn btn-primary"><a href="index.php" class="text-decoration-none text-white">Indietro</a></button>
