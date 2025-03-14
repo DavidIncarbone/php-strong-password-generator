@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 // Assegno la lunghezza della password
 
 $passwordLength = $_GET["passwordLength"] ?? 0;
