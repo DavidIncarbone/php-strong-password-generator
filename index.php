@@ -28,7 +28,7 @@ require_once "./functions.php";
 
         <div class="d-flex justify-content-between mb-3">
             <label for="passwordLength"> Lunghezza password:</label>
-            <input type="number" id="passwordLength" name="passwordLength" min="5" max="88" required>
+            <input type="number" id="passwordLength" name="passwordLength" min="1" max="10" required>
         </div>
         <div class="d-flex justify-content-between mb-3">
             <label>Consenti ripetizioni di uno o più caratteri:</label>
@@ -39,8 +39,11 @@ require_once "./functions.php";
             </div>
         </div>
         <div class="d-flex flex-column align-items-end mb-3">
-            <div><input type="checkbox" id="letters" name="letters">
-                <label for="letters">Lettere</label>
+            <div><input type="checkbox" id="upperCaseLetters" name="upperCaseLetters">
+                <label for="upperCaseLetters">Lettere Maiuscole</label>
+            </div>
+            <div><input type="checkbox" id="lowerCaseLetters" name="lowerCaseLetters">
+                <label for="lowerCaseLetters">Lettere Minuscole</label>
             </div>
             <div><input type="checkbox" id="numbers" name="numbers">
                 <label for="numbers">Numeri</label>

@@ -8,8 +8,7 @@ if (!isset($_SESSION["passwordGenerated"])) {
     header("Location: ./index.php");
 }
 
-
-// var_dump($duplicates);
+var_dump($_SESSION);
 ?>
 
 <!DOCTYPE html>
