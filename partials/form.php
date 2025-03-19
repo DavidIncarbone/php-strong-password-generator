@@ -1,5 +1,8 @@
  <h1 class="text-center">Strong password generator</h1>
  <h2 class="text-center text-white">Genera una password sicura</h2>
+
+ <!-- Messaggio che mostro se i campi obbligatori sono vuoti -->
+
  <div id="alert-info" class="p-3 my-4 <?php echo empty($error) ? "d-none" : "d-block" ?>"><?php echo $error ?></div>
 
 

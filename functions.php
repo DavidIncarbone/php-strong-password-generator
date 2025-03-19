@@ -1,28 +1,14 @@
 <?php
 
-session_start();
-
 // Assegno la lunghezza della password
 $passwordLength = $_GET["passwordLength"] ?? 0;
 
-// assegno le query string invocando la funzione
+// assegno le query string alle variabili di sessione invocando la funzione
 $duplicates = assignQueryString("duplicates");
 $upperCaseLetters = assignQueryString("upperCaseLetters");
 $lowerCaseLetters = assignQueryString("lowerCaseLetters");
 $numbers = assignQueryString("numbers");
 $symbols = assignQueryString("symbols");
-
-// Assegno la password generata e la converto in un formato pronto a ricevere l'escape dei caratteri speciali
-$_SESSION["passwordGenerated"] = generatePassword(
-    $passwordLength,
-    $duplicates,
-    $upperCaseLetters,
-    $lowerCaseLetters,
-    $numbers,
-    $symbols
-);
-$password = $_SESSION["passwordGenerated"];
-$password_utf8 = mb_convert_encoding($password, 'UTF-8', 'auto');
 
 // Dichiaro una funzione per l'assegnazione delle query string
 function assignQueryString(string $value)
@@ -39,6 +25,7 @@ function generatePassword($passwordLength, $duplicates, $upperCaseLetters, $lowe
     $upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Lettere maiuscole
     $num = "0123456789"; // Numeri
     $symb = "!@#$%^&*()-_=+[]{}|;:,.<>?"; // Simboli
+
     $characters = "";
 
     // Aggiungi caratteri selezionati
@@ -76,42 +63,52 @@ function generatePassword($passwordLength, $duplicates, $upperCaseLetters, $lowe
         $requiredCharacters[] = $symb[rand(0, strlen($symb) - 1)];
     }
 
-    // Miscelare i caratteri obbligatori
-    shuffle($requiredCharacters);
-
     // Aggiungi i caratteri obbligatori alla password
     $password .= implode("", $requiredCharacters);
 
     // Calcola la lunghezza rimanente
     $remainingLength = $passwordLength - count($requiredCharacters);
 
+    // Se sono permessi i duplicati, aggiungi caratteri a caso
     if ($duplicates == "Yes") {
-        // Aggiungi i caratteri rimanenti con duplicati
         for ($i = 0; $i < $remainingLength; $i++) {
+            // Aggiungi un carattere casuale dalla lista dei caratteri
             $password .= $characters[rand(0, strlen($characters) - 1)];
         }
-    } else if ($duplicates == "No") {
-        // Dividi la stringa in un array di caratteri unici
-        $charactersArray = str_split($characters);
+    }
+    // Se non sono permessi duplicati
+    else if ($duplicates == "No") {
+        $newCharacters = 0;
+        $usedCharacters = [];
 
-        // Se la lunghezza della password è maggiore del numero di caratteri unici, non possiamo continuare senza duplicati.
-        if (count($charactersArray) < $remainingLength) {
-            return "Errore: non ci sono abbastanza caratteri unici per generare la password senza duplicazioni.";
+        // Aggiungi solo caratteri unici fino a riempire la lunghezza rimanente
+        while ($newCharacters < $remainingLength && strlen($characters) > 0) {
+            $randomChar = $characters[rand(0, strlen($characters) - 1)];
+
+            // Se il carattere non è già stato usato, aggiungilo alla password
+            if (!in_array($randomChar, $usedCharacters)) {
+                $password .= $randomChar;
+                $usedCharacters[] = $randomChar;
+                $newCharacters++;
+            }
         }
 
-        // Mescolare i caratteri unici
-        shuffle($charactersArray);
-
-        // Aggiungi solo i primi $remainingLength caratteri senza duplicazioni
-        $uniqueCharacters = array_slice($charactersArray, 0, $remainingLength);
-        $password .= implode("", $uniqueCharacters);
+        // Se non ci sono abbastanza caratteri unici, permetti i duplicati
+        if ($newCharacters < $remainingLength) {
+            while ($newCharacters < $remainingLength) {
+                $password .= $characters[rand(0, strlen($characters) - 1)];
+                $newCharacters++;
+            }
+        }
     }
 
-    // Mescolare l'intera password per garantire casualità
+    // Mescolare l'intera password per garantirne la casualità
     $password = str_shuffle($password);
 
     return $password;
 }
+
+
 
 // Mostra le informazioni sui caratteri selezionati
 $lettersInfo = "";

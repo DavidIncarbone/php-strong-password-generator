@@ -1,8 +1,13 @@
 <?php
-require_once "./functions.php";
+
+
+// decido se reindirizzare o meno l'utente
+
+session_start();;
+
 $error = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['passwordLength'])) {
+if (isset($_GET['passwordLength'])) {
     // Controllo se uno dei campi obbligatori è vuoto
     if (empty($_GET['passwordLength']) || (empty($_GET['upperCaseLetters']) &&
         empty($_GET['lowerCaseLetters']) &&
@@ -12,9 +17,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['passwordLength'])) {
         $error = "Uno o più campi risultano vuoti";
     } else {
 
-        // Aggiungi i parametri alla query string durante il redirect
-        header("Location: ./result.php?" . http_build_query($_GET));
-        exit(); // Assicurati di interrompere l'esecuzione del codice dopo il redirect
+        require_once "./functions.php";
+
+        $_SESSION["passwordGenerated"] = generatePassword(
+            $passwordLength,
+            $duplicates,
+            $upperCaseLetters,
+            $lowerCaseLetters,
+            $numbers,
+            $symbols
+        );
+
+        $_SESSION["lettersInfo"] = $lettersInfo;
+
+
+        header("Location: ./result.php");
     }
 }
 ?>
@@ -32,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['passwordLength'])) {
 
 <body class="p-3">
 
-    <?php require_once "./form.php" ?>
+    <?php require_once "./partials/form.php" ?>
 
 </body>
 

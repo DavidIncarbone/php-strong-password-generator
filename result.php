@@ -1,10 +1,14 @@
 <?php
 
-require_once "./functions.php";
+session_start();
 
 if (!isset($_SESSION["passwordGenerated"])) {
 
     header("Location: ./index.php");
+} else {
+
+    $password = $_SESSION["passwordGenerated"];
+    $password_utf8 = mb_convert_encoding($password, 'UTF-8', 'auto');
 }
 
 ?>
@@ -23,7 +27,7 @@ if (!isset($_SESSION["passwordGenerated"])) {
 
 <body class="p-3">
 
-    <h1 class="text-center">La password generata contiene <span class="text-white"><?php echo $passwordLength ?></span> caratteri (<span class="text-white"><?php echo $lettersInfo ?></span>) ed è: <span class="text-primary "><?php echo htmlentities($password_utf8, ENT_QUOTES, 'UTF-8') ?></span></h1>
+    <h1 class="text-center">La password generata contiene <span class="text-white"><?php echo strlen($password) ?></span> caratteri (<span class="text-white"><?php echo $_SESSION["lettersInfo"] ?></span>) ed è: <span class="text-primary "><?php echo htmlentities($password_utf8, ENT_QUOTES, 'UTF-8') ?></span></h1>
 
     <div class="d-flex justify-content-center">
 
