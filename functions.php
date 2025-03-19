@@ -4,18 +4,18 @@
 $passwordLength = $_GET["passwordLength"] ?? 0;
 
 // assegno le query string alle variabili di sessione invocando la funzione
-$duplicates = assignQueryString("duplicates");
-$upperCaseLetters = assignQueryString("upperCaseLetters");
-$lowerCaseLetters = assignQueryString("lowerCaseLetters");
-$numbers = assignQueryString("numbers");
-$symbols = assignQueryString("symbols");
+$duplicates = $_GET["duplicates"] ?? "";
+$upperCaseLetters = $_GET["upperCaseLetters"] ?? "";
+$lowerCaseLetters = $_GET["lowerCaseLetters"] ?? "";
+$numbers = $_GET["numbers"] ?? "";
+$symbols = $_GET["symbols"] ?? "";
 
 // Dichiaro una funzione per l'assegnazione delle query string
-function assignQueryString(string $value)
-{
-    $_SESSION["$value"] = $_GET["$value"] ?? "";
-    return $_SESSION["$value"];
-}
+// function assignQueryString(string $value)
+// {
+//     $_SESSION["$value"] = $_GET["$value"] ?? "";
+//     return $_SESSION["$value"];
+// }
 
 // Dichiaro la funzione per generare la password
 function generatePassword($passwordLength, $duplicates, $upperCaseLetters, $lowerCaseLetters, $numbers, $symbols)
@@ -77,36 +77,35 @@ function generatePassword($passwordLength, $duplicates, $upperCaseLetters, $lowe
         }
     }
     // Se non sono permessi duplicati
-    else if ($duplicates == "No") {
+    else if ($duplicates == "No" && $remainingLength !== 0) {
+
         $newCharacters = 0;
-        $usedCharacters = [];
 
-        // Aggiungi solo caratteri unici fino a riempire la lunghezza rimanente
-        while ($newCharacters < $remainingLength && strlen($characters) > 0) {
-            $randomChar = $characters[rand(0, strlen($characters) - 1)];
+        for ($i = 0; $i < strlen($characters); $i++) {
 
-            // Se il carattere non è già stato usato, aggiungilo alla password
-            if (!in_array($randomChar, $usedCharacters)) {
-                $password .= $randomChar;
-                $usedCharacters[] = $randomChar;
+            if (strpos($password, $characters[$i]) === false) {
+
+                $password .= $characters[$i];
                 $newCharacters++;
-            }
-        }
 
-        // Se non ci sono abbastanza caratteri unici, permetti i duplicati
-        if ($newCharacters < $remainingLength) {
-            while ($newCharacters < $remainingLength) {
-                $password .= $characters[rand(0, strlen($characters) - 1)];
-                $newCharacters++;
+                if ($newCharacters === $remainingLength) {
+                    break;
+                }
             }
         }
     }
-
     // Mescolare l'intera password per garantirne la casualità
     $password = str_shuffle($password);
 
     return $password;
 }
+
+
+
+
+
+
+
 
 
 

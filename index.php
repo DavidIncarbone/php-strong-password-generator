@@ -3,7 +3,7 @@
 
 // decido se reindirizzare o meno l'utente
 
-session_start();;
+session_start();
 
 $error = '';
 
@@ -16,6 +16,8 @@ if (isset($_GET['passwordLength'])) {
     )) {
         $error = "Uno o più campi risultano vuoti";
     } else {
+
+
 
         require_once "./functions.php";
 
