@@ -1,11 +1,10 @@
 <?php
-
+session_start();
 
 // decido se reindirizzare o meno l'utente
 
-session_start();
-
 $error = '';
+
 
 if (isset($_GET['passwordLength'])) {
     // Controllo se uno dei campi obbligatori è vuoto
@@ -17,21 +16,7 @@ if (isset($_GET['passwordLength'])) {
         $error = "Uno o più campi risultano vuoti";
     } else {
 
-
-
         require_once "./functions.php";
-
-        $_SESSION["passwordGenerated"] = generatePassword(
-            $passwordLength,
-            $duplicates,
-            $upperCaseLetters,
-            $lowerCaseLetters,
-            $numbers,
-            $symbols
-        );
-
-        $_SESSION["lettersInfo"] = $lettersInfo;
-
 
         header("Location: ./result.php");
     }
